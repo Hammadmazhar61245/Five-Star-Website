@@ -1,69 +1,166 @@
-import Image from "next/image";
+'use client';
+
+import Link from 'next/link';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { categories } from '@/data/categories';
+import ProductCard from '@/components/ProductCard';
+import { fetchFeaturedProducts } from '@/lib/api';
+import { useEffect, useState } from 'react';
+import { Product } from '@/types';
+import ScrollyStory from '@/components/ScrollyStory';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 },
+  },
+};
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: { y: 0, opacity: 1 },
+};
 
 export default function Home() {
+  const [featured, setFeatured] = useState<Product[]>([]);
+
+  useEffect(() => {
+    fetchFeaturedProducts().then(setFeatured);
+  }, []);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="container mx-auto px-4 py-8">
+      {/* Animated Hero with Cinematic Image */}
+      <section className="relative text-center py-32 rounded-lg border border-border shadow-sm overflow-hidden">
+        
+        {/* 🖼️ HD BACKGROUND IMAGE */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/slide1.png" 
+            alt="Cinematic background"
+            fill
+            className="object-cover"
+            priority
+          />
+          {/* Dark Tint so text stays readable */}
+          <div className="absolute inset-0 bg-black/30 z-10"></div>
+        </div>
+
+        {/* Animated Glowing Orb Background */}
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/20 rounded-full blur-3xl z-10"
+          animate={{
+            scale: [1, 1.2, 1],
+            rotate: [0, 45, 0],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+        
+        <h1 className="text-5xl font-bold text-white mb-4 relative z-20 drop-shadow-lg">
+          <span className="text-primary">★</span> Five Star Electronics Plus
+        </h1>
+        <p className="text-xl text-gray-200 relative z-20 drop-shadow-md">Safety • Security • Telecommunications</p>
+        
+        <div className="mt-8 flex justify-center gap-4 relative z-20">
+          <motion.a
+            href={`https://wa.me/${process.env.NEXT_PUBLIC_WA_NUMBER}`}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noreferrer"
+            className="bg-primary text-white px-6 py-3 rounded hover:bg-primary-bright transition-colors shadow-md relative"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Order via WhatsApp
+            <span className="absolute inset-0 rounded-full border border-primary animate-ping opacity-75"></span>
+          </motion.a>
+
+          <Link
+            href="/category"
+            className="bg-white/20 backdrop-blur-sm border border-white/30 text-white px-6 py-3 rounded hover:bg-white/40 transition-colors shadow-sm"
           >
-            Documentation
-          </a>
+            Browse Products
+          </Link>
         </div>
-      </main>
+      </section>
+
+      {/* Staggered Categories Grid */}
+      <section className="mt-16">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Shop by Category</h2>
+        <motion.div 
+          className="grid grid-cols-2 md:grid-cols-4 gap-4"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {categories.map((cat) => (
+            <motion.div key={cat.slug} variants={itemVariants}>
+              <Link
+                href={`/category?slug=${cat.slug}`}
+                className="bg-white border-2 border-border rounded-lg p-6 text-center block hover:border-primary transition-all duration-200 hover:shadow-[0_4px_20px_rgba(204,0,0,0.1)]"
+              >
+                <div className="text-4xl mb-2">{cat.emoji}</div>
+                <div className="text-gray-900 font-semibold">{cat.name}</div>
+              </Link>
+            </motion.div>
+          ))}
+        </motion.div>
+      </section>
+
+      {/* Featured Products */}
+      {featured.length > 0 && (
+        <section className="mt-16">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Featured Products</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {featured.map((product: Product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* GSAP Scrollytelling Story Section */}
+      <ScrollyStory />
+
+      {/* Trust / Features */}
+      <section className="mt-16 bg-gray-50 border border-border rounded-lg p-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div>
+            <h4 className="text-gray-900 font-bold">Genuine Products</h4>
+            <p className="text-gray-600 text-sm">100% authentic brands</p>
+          </div>
+          <div>
+            <h4 className="text-gray-900 font-bold">Expert Installation</h4>
+            <p className="text-gray-600 text-sm">Professional support</p>
+          </div>
+          <div>
+            <h4 className="text-gray-900 font-bold">After Sale Support</h4>
+            <p className="text-gray-600 text-sm">We&apos;re here for you</p>
+          </div>
+          <div>
+            <h4 className="text-gray-900 font-bold">Multan Delivery</h4>
+            <p className="text-gray-600 text-sm">Fast local delivery</p>
+          </div>
+        </div>
+      </section>
+
+      {/* WhatsApp CTA */}
+      <section className="mt-16 bg-red-50 border border-primary rounded-lg p-8 text-center">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Ready to Order?</h2>
+        <p className="text-gray-600 mb-4">Chat with us on WhatsApp for quick ordering</p>
+        <a
+          href={`https://wa.me/${process.env.NEXT_PUBLIC_WA_NUMBER}`}
+          target="_blank"
+          rel="noreferrer"
+          className="bg-primary text-white px-6 py-3 rounded hover:bg-primary-bright transition-colors inline-block shadow-md"
+        >
+          Start Order
+        </a>
+      </section>
     </div>
   );
 }
