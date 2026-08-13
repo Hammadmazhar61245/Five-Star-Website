@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { categories } from '@/data/categories';
@@ -9,17 +9,41 @@ import { motion } from 'framer-motion';
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // 🧭 DETECT SCROLL POSITION
+  useEffect(() => {
+    const handleScroll = () => {
+      // If user scrolls more than 50px, we change the navbar style
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <>
-      {/* Floating, Transparent Navbar */}
-      <nav className="fixed top-0 left-0 w-full z-50 bg-transparent text-white backdrop-blur-[2px] border-b border-white/20">
+      {/* Floating Navbar with Scroll-Aware Glass Effect */}
+      <nav 
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+          isScrolled 
+            ? 'bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm text-gray-900' 
+            : 'bg-transparent text-white border-b border-white/20'
+        }`}
+      >
         <div className="container mx-auto px-4 flex items-center justify-between h-20">
+          {/* Text Logo */}
           <Link href="/" className="flex items-center gap-2 font-bold text-xl tracking-wide">
-            <span className="text-primary text-2xl drop-shadow-md">★</span> 
-            <span className="drop-shadow-md">FIVE STAR</span>
+            <span className={`text-primary text-2xl drop-shadow-md ${!isScrolled && 'drop-shadow-lg'}`}>★</span> 
+            <span className={`${isScrolled ? 'text-gray-900' : 'text-white drop-shadow-md'}`}>FIVE STAR</span>
           </Link>
 
+          {/* Desktop links */}
           <div className="hidden md:flex items-center gap-8">
             <div
               className="relative group"
@@ -76,8 +100,9 @@ export default function Navbar() {
             </motion.a>
           </div>
 
+          {/* Mobile hamburger */}
           <button
-            className="md:hidden text-white"
+            className={`md:hidden ${isScrolled ? 'text-gray-900' : 'text-white'}`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X /> : <Menu />}

@@ -13,7 +13,6 @@ export default function ScrollyStory() {
   const sectionRef = useRef<HTMLElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
 
-  // ✍️ FILLED WITH YOUR PREMIUM PRODUCT COPY
   const slidesData = [
     { 
       src: '/slide1.png', 
@@ -49,28 +48,32 @@ export default function ScrollyStory() {
           start: 'top top',
           end: 'bottom bottom',
           pin: true,
-          scrub: 1.2, // Slow, cinematic scroll
+          scrub: 2, 
           markers: false,
         },
       });
 
       // --- TRANSITION 1: Slide 1 to Slide 2 ---
-      tl.to('.slide-1', { opacity: 0, scale: 1.1, duration: 0.6 }, 0)
-        .to('.text-1', { opacity: 0, duration: 0.5 }, 0)
-        .to('.slide-2', { opacity: 1, scale: 1.0, duration: 0.6 }, 0)
-        .to('.text-2', { opacity: 1, duration: 0.5 }, 0);
+      tl.to('.slide-1', { opacity: 0, scale: 1.1, duration: 1.2 }, 0)
+        .to('.text-1', { opacity: 0, duration: 0.8 }, 0)
+        .to('.slide-2', { opacity: 1, scale: 1.0, duration: 1.2 }, 0)
+        .to('.text-2', { opacity: 1, duration: 0.8 }, 0);
 
       // --- TRANSITION 2: Slide 2 to Slide 3 ---
-      tl.to('.slide-2', { opacity: 0, scale: 1.1, duration: 0.6 }, 0.15)
-        .to('.text-2', { opacity: 0, duration: 0.5 }, 0.15)
-        .to('.slide-3', { opacity: 1, scale: 1.0, duration: 0.6 }, 0.15)
-        .to('.text-3', { opacity: 1, duration: 0.5 }, 0.15);
+      tl.to('.slide-2', { opacity: 0, scale: 1.1, duration: 1.2 }, 0.15)
+        .to('.text-2', { opacity: 0, duration: 0.8 }, 0.15)
+        .to('.slide-3', { opacity: 1, scale: 1.0, duration: 1.2 }, 0.15)
+        .to('.text-3', { opacity: 1, duration: 0.8 }, 0.15);
 
       // --- TRANSITION 3: Slide 3 to Slide 4 ---
-      tl.to('.slide-3', { opacity: 0, scale: 1.1, duration: 0.6 }, 0.30)
-        .to('.text-3', { opacity: 0, duration: 0.5 }, 0.30)
-        .to('.slide-4', { opacity: 1, scale: 1.0, duration: 0.6 }, 0.30)
-        .to('.text-4', { opacity: 1, duration: 0.5 }, 0.30);
+      tl.to('.slide-3', { opacity: 0, scale: 1.1, duration: 1.2 }, 0.30)
+        .to('.text-3', { opacity: 0, duration: 0.8 }, 0.30)
+        .to('.slide-4', { opacity: 1, scale: 1.0, duration: 1.2 }, 0.30)
+        .to('.text-4', { opacity: 1, duration: 0.8 }, 0.30);
+
+      // 🛠️ FIXED: GLASS CARD ANIMATION (Replaced glitchy 'x' slide with a smooth 'scale' pop-in)
+      tl.fromTo('.glass-card-1', { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.8, ease: 'back.out(1.7)' }, 0)
+        .fromTo('.glass-card-2', { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.8, ease: 'back.out(1.7)' }, '-=0.4');
 
     }, sectionRef);
 
@@ -83,7 +86,6 @@ export default function ScrollyStory() {
   return (
     <section ref={sectionRef} className="relative h-screen w-full overflow-hidden">
       
-      {/* 1. LAYERED BACKGROUND IMAGES */}
       <div className="absolute inset-0 z-0">
         {slidesData.map((slide, index) => (
           <div 
@@ -97,16 +99,13 @@ export default function ScrollyStory() {
               className="object-cover" 
               priority={index === 0} 
             />
-            {/* Dark tint for text readability */}
             <div className="absolute inset-0 bg-black/40 z-10"></div> 
           </div>
         ))}
       </div>
 
-      {/* 2. CROSSFADING TEXT & GLASS CARDS */}
       <div ref={triggerRef} className="absolute inset-0 z-20 flex flex-col items-center justify-center p-8 md:p-16">
         
-        {/* Text Container - Fixed height prevents layout jumping */}
         <div className="relative w-full max-w-5xl h-[200px] md:h-[280px] flex flex-col items-center justify-center text-center">
           {slidesData.map((slide, index) => (
             <div 
@@ -123,14 +122,13 @@ export default function ScrollyStory() {
           ))}
         </div>
 
-        {/* Static Glass Cards (No heavy sliding, just clean UI) */}
         <div className="flex flex-col md:flex-row gap-6 justify-center mt-8 md:mt-12 relative z-30">
-          <div className="bg-white/20 backdrop-blur-lg border border-white/30 p-6 rounded-2xl shadow-2xl w-full md:w-1/3 text-left">
+          <div className="glass-card-1 bg-white/20 backdrop-blur-lg border border-white/30 p-6 rounded-2xl shadow-2xl w-full md:w-1/3 text-left">
             <div className="text-primary text-3xl mb-2">🔒</div>
             <h4 className="font-bold text-white">Unmatched Safety</h4>
             <p className="text-gray-200 text-sm mt-2">Top-tier CCTV & Access Control systems for your peace of mind.</p>
           </div>
-          <div className="bg-white/20 backdrop-blur-lg border border-white/30 p-6 rounded-2xl shadow-2xl w-full md:w-1/3 text-left">
+          <div className="glass-card-2 bg-white/20 backdrop-blur-lg border border-white/30 p-6 rounded-2xl shadow-2xl w-full md:w-1/3 text-left">
             <div className="text-primary text-3xl mb-2">⚡</div>
             <h4 className="font-bold text-white">Rapid Support</h4>
             <p className="text-gray-200 text-sm mt-2">Expert installation and after-sales support right here in Multan.</p>

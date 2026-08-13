@@ -67,13 +67,22 @@ export default function Home() {
       {/* 🟢 3. EVERYTHING ELSE */}
       <div className="container mx-auto px-4 mt-16">
         
-        {/* Categories */}
-        <section>
+        {/* 🟢 CATEGORIES - COMPLETE GLASSMORPHISM EFFECT WITH BACKGROUND GRADIENT */}
+        <section className="bg-gradient-to-br from-gray-50 via-white to-gray-100 p-6 rounded-xl shadow-inner border border-border/50">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Shop by Category</h2>
-          <motion.div className="grid grid-cols-2 md:grid-cols-4 gap-4" variants={containerVariants} initial="hidden" animate="visible">
+          <motion.div 
+            className="grid grid-cols-2 md:grid-cols-4 gap-4"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
             {categories.map((cat) => (
               <motion.div key={cat.slug} variants={itemVariants}>
-                <Link href={`/category?slug=${cat.slug}`} className="bg-white border-2 border-border rounded-lg p-6 text-center block hover:border-primary transition-all duration-200 hover:shadow-[0_4px_20px_rgba(204,0,0,0.1)]">
+                <Link 
+                  href={`/category?slug=${cat.slug}`} 
+                  /* 🪟 FULL BLUR / GLASS EFFECT CLASSES 🪟 */
+                  className="bg-white/60 backdrop-blur-sm border-2 border-white/80 shadow-sm rounded-lg p-6 text-center block transition-all duration-300 hover:bg-white/90 hover:border-primary hover:shadow-md hover:scale-[1.02]"
+                >
                   <div className="text-4xl mb-2">{cat.emoji}</div>
                   <div className="text-gray-900 font-semibold">{cat.name}</div>
                 </Link>
@@ -116,7 +125,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 🖼️ THE NEW INFINITE HORIZONTAL SCROLLING GALLERY */}
+        {/* 🖼️ THE INFINITE HORIZONTAL SCROLLING GALLERY */}
         <BottomGallery />
 
         {/* WhatsApp CTA */}
