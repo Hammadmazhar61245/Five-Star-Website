@@ -1,5 +1,5 @@
 'use client';
-
+import BottomGallery from '@/components/BottomGallery';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -32,21 +32,13 @@ export default function Home() {
   return (
     <div className="w-full">
       
-      {/* 🟢 1. FULL WIDTH HERO (Edge-to-edge) */}
+      {/* 🟢 1. FULL WIDTH HERO */}
       <section className="relative text-center h-[90vh] pt-20 flex flex-col justify-center items-center w-full overflow-hidden">
-        {/* Background Image */}
         <div className="absolute inset-0 z-0">
-          <Image
-            src="/slide1.png"
-            alt="Cinematic background"
-            fill
-            className="object-cover"
-            priority
-          />
+          <Image src="/slide1.png" alt="Cinematic background" fill className="object-cover" priority />
           <div className="absolute inset-0 bg-black/40 z-10"></div>
         </div>
 
-        {/* Glowing Orb */}
         <motion.div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/20 rounded-full blur-3xl z-10"
           animate={{ scale: [1, 1.2, 1], rotate: [0, 45, 0] }}
@@ -59,40 +51,26 @@ export default function Home() {
         <p className="text-xl text-gray-200 relative z-20 drop-shadow-md">Safety • Security • Telecommunications</p>
         
         <div className="mt-8 flex justify-center gap-4 relative z-20">
-          <motion.a
-            href={`https://wa.me/${process.env.NEXT_PUBLIC_WA_NUMBER}`}
-            target="_blank"
-            rel="noreferrer"
-            className="bg-primary text-white px-6 py-3 rounded hover:bg-primary-bright transition-colors shadow-md relative"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
+          <motion.a href={`https://wa.me/${process.env.NEXT_PUBLIC_WA_NUMBER}`} target="_blank" rel="noreferrer" className="bg-primary text-white px-6 py-3 rounded hover:bg-primary-bright transition-colors shadow-md relative" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             Order via WhatsApp
             <span className="absolute inset-0 rounded-full border border-primary animate-ping opacity-75"></span>
           </motion.a>
-          <Link
-            href="/category"
-            className="bg-white/20 backdrop-blur-sm border border-white/30 text-white px-6 py-3 rounded hover:bg-white/40 transition-colors shadow-sm"
-          >
+          <Link href="/category" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white px-6 py-3 rounded hover:bg-white/40 transition-colors shadow-sm">
             Browse Products
           </Link>
         </div>
       </section>
 
-      {/* 🟢 2. SCROLLY STORY (Moved OUTSIDE container to spread edge-to-edge) */}
+      {/* 🟢 2. SCROLLY STORY */}
       <ScrollyStory />
 
-      {/* 🟢 3. EVERYTHING ELSE (Back inside the centered container) */}
+      {/* 🟢 3. EVERYTHING ELSE */}
       <div className="container mx-auto px-4 mt-16">
-        {/* Staggered Categories Grid */}
+        
+        {/* Categories */}
         <section>
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Shop by Category</h2>
-          <motion.div 
-            className="grid grid-cols-2 md:grid-cols-4 gap-4"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
+          <motion.div className="grid grid-cols-2 md:grid-cols-4 gap-4" variants={containerVariants} initial="hidden" animate="visible">
             {categories.map((cat) => (
               <motion.div key={cat.slug} variants={itemVariants}>
                 <Link href={`/category?slug=${cat.slug}`} className="bg-white border-2 border-border rounded-lg p-6 text-center block hover:border-primary transition-all duration-200 hover:shadow-[0_4px_20px_rgba(204,0,0,0.1)]">
@@ -116,7 +94,7 @@ export default function Home() {
           </section>
         )}
 
-        {/* Trust / Features */}
+        {/* Trust */}
         <section className="mt-16 bg-gray-50 border border-border rounded-lg p-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
             <div>
@@ -137,6 +115,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* 🖼️ THE NEW INFINITE HORIZONTAL SCROLLING GALLERY */}
+        <BottomGallery />
 
         {/* WhatsApp CTA */}
         <section className="mt-16 bg-red-50 border border-primary rounded-lg p-8 text-center">

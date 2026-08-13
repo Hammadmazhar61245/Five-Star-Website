@@ -12,16 +12,14 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Floating, Transparent Navbar (No Red Strip!) */}
+      {/* Floating, Transparent Navbar */}
       <nav className="fixed top-0 left-0 w-full z-50 bg-transparent text-white backdrop-blur-[2px] border-b border-white/20">
         <div className="container mx-auto px-4 flex items-center justify-between h-20">
-          {/* Text Logo (No more broken logo image!) */}
           <Link href="/" className="flex items-center gap-2 font-bold text-xl tracking-wide">
             <span className="text-primary text-2xl drop-shadow-md">★</span> 
             <span className="drop-shadow-md">FIVE STAR</span>
           </Link>
 
-          {/* Desktop links */}
           <div className="hidden md:flex items-center gap-8">
             <div
               className="relative group"
@@ -70,7 +68,7 @@ export default function Navbar() {
               href={`https://wa.me/${process.env.NEXT_PUBLIC_WA_NUMBER}`}
               target="_blank"
               rel="noreferrer"
-              className="bg-primary text-white px-5 py-2 rounded hover:bg-primary-bright transition-colors shadow-lg"
+              className="bg-[#25D366] text-white px-5 py-2 rounded hover:bg-[#20bd5a] transition-colors shadow-lg"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -109,7 +107,7 @@ export default function Navbar() {
                 href={`https://wa.me/${process.env.NEXT_PUBLIC_WA_NUMBER}`}
                 target="_blank"
                 rel="noreferrer"
-                className="block w-full bg-primary text-white text-center py-2 rounded hover:bg-primary-bright transition-colors"
+                className="block w-full bg-[#25D366] text-white text-center py-2 rounded hover:bg-[#20bd5a] transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Order via WhatsApp
